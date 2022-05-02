@@ -1,64 +1,43 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Books API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- This is a simiple REST API project for CRUD operations on a single table. 
+- The `books` table is consisting of `id`, `isbn`, `title`, `author`, `category` and `price`.
+- The user should be able to filter books by `author` and/or `category`, and also create new books with validation of the `isbn` entity.
 
-## About Laravel
+### Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- This project is build using `Laravel` with `PHP` language, and usnig `PostgreSQL` database.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Setup and testing procedure
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Pull `master` branch to your local machine, and open `pgAdmin` or the relevant database server that you have on your machine.
+- From the `book_api` directory create a new `.env` file that hold the db configuration.
+example for the db config (postgreSQL config):
+```
+DB_CONNECTION=pgsql
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=
+DB_PASSWORD=
+```
+- Then run `php artisan serve` from the same directory and make sure the app started on `http://127.0.0.1:8000` 
+- Run `php artisan migrate` to make sure the `books` table is created.
+- Run `php artisan db:seed` to create some entries for the table.
+- Open an app like `postman` or `insomnia` that will allow us to do some CRUD requests on the API.
+- The `url` in the app should match `http://localhost:8000/api/books` or `http://127.0.0.1:8000/api/books` and in the headers we shoould add the `Content-Type` and `Accept` keys to be `application/json`. 
+- to get all the `books` we will use `GET` with url `http://localhost:8000/api/books`.
+- to get specific book we will use `GET` with url `http://localhost:8000/api/books/{id}`.
+- to get books with specific Author and/or category  we will use `GET` with url `http://localhost:8000/api/books?author={authorName}&category={category}`.
+- To create a new book we will use `POST` with url `http://localhost:8000/api/books` and body 
+```
+{
+    "isbn": "978-1491918661",
+    "title": "Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5",
+    "author": "Robin Nixon",
+    "category": "Java",
+    "price": "9.99"
+}
+```
+- The `isbn` value should be accepted.
+- Try the previous request again with `isbn` value `"978-INVALID1491918661"`, and make sure an exception is thrown and no entry is created.
