@@ -40,14 +40,6 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request): Response
     {
-        $validation = $request->validate([
-            'isbn' => [
-                'required',
-                'regex:/^(?:ISBN(?:-13)?:?\ *(97(?:8|9)([ -]?)(?=\d{1,5}\2?\d{1,7}\2?\d{1,6}\2?\d)(?:\d\2*){9}\d))$/i',
-                'max:17'
-            ]
-        ]);
-
         $newBook = Book::create($request->all());
         return response($newBook, 201);
     }

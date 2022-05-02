@@ -25,7 +25,7 @@ class UpdateBookRequest extends FormRequest
     {
         return [
             'isbn' => [
-                'regex:/^(?:ISBN(?:-13)?:?\ *(97(?:8|9)([ -]?)(?=\d{1,5}\2?\d{1,7}\2?\d{1,6}\2?\d)(?:\d\2*){9}\d))$/i',
+                'regex:/^978([+-]?(?=\\.\\d|\\d)(?:\\d+)?(?:\\.?\\d*))(?:[eE]([+-]?\\d+))?$/i',
                 'max:17',
             ],
         ];
